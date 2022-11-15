@@ -1,10 +1,4 @@
-//
-//  AppDelegate.swift
-//  finalproject
-//
-//  Created by Phan Nhân on 11/14/22.
-//  Copyright © 2022 Phan Nhân. All rights reserved.
-//
+
 
 import UIKit
 import CoreData
