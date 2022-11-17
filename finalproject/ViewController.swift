@@ -47,7 +47,7 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
     
     override func viewDidLoad() {
 //        print("users: \(users)")
-        
+//        removeCoreData()
         self.title = "Switters"
         userTableView.dataSource = self
         userTableView.delegate = self
@@ -111,14 +111,30 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
     }
     
     //save coredata
-    func save(login: String,url:String){
-        print("save coredata")
+//    func save(login: String,url:String){
+//        print("save coredata")
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return }
+//        let managedContext = appDelegate.persistentContainer.viewContext
+//        let entity = NSEntityDescription.entity(forEntityName: "User", in: managedContext)!
+//        let user = NSManagedObject(entity: entity, insertInto: managedContext)
+//        user.setValue(login, forKeyPath: "login")
+//        user.setValue(url, forKeyPath: "url")
+//        do{
+//            try managedContext.save()
+//            users.append(user)
+//        }catch let error as NSError{
+//            print("Could not save, \(error), \(error.userInfo)")
+//        }
+//    }
+    func save(login: String,html_url:String,avatar_url:String){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return }
         let managedContext = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "User", in: managedContext)!
         let user = NSManagedObject(entity: entity, insertInto: managedContext)
         user.setValue(login, forKeyPath: "login")
-        user.setValue(url, forKeyPath: "url")
+        user.setValue(html_url, forKeyPath: "html_url")
+        user.setValue(avatar_url, forKeyPath: "avatar_url")
+        
         do{
             try managedContext.save()
             users.append(user)
@@ -136,8 +152,8 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
         do{
             users  = try managedConText.fetch(fetchRequest)
             for data in users as! [NSManagedObject]{
-//                print(data.value(forKey: "login") as! String)
-                print(data)
+                print(data.value(forKey: "login") as! String)
+//                print(data)
             }
 //            print(users)
         }catch let error as NSError{
@@ -145,7 +161,22 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
             print (0)
         }
     }
-    
+    func removeCoreData() {
+        guard let appDelegate =
+          UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "User") // Find this name in your .xcdatamodeld file
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try managedContext.execute(deleteRequest)
+        } catch let error as NSError {
+            // TODO: handle the error
+            print(error.localizedDescription)
+        }
+    }
     
     func getURL(completion: @escaping ([User]) -> Void) {
         let url = "https://api.github.com/users"
@@ -162,6 +193,9 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
             case .success( _):
                 do {
                     let users = try JSONDecoder().decode([User].self, from: response.data!)
+                    for item in users {
+                        self.save(login:item.login,html_url: item.html_url,avatar_url: item.avatar_url)
+                    }
                     completion(users)
                 } catch let error as NSError {
                     print("Failed to load: \(error.localizedDescription)")
