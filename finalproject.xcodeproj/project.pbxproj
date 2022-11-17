@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		14E6D03ED3D5C6C2DE1EE418 /* Pods_finalprojectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE28F3DC77EAF9126562849 /* Pods_finalprojectTests.framework */; };
 		5ED9C23C292350A400DB2B81 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED9C23B292350A400DB2B81 /* DetailTableViewCell.swift */; };
+		5EE8D27A29261F2D006ABCD6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE8D27929261F2D006ABCD6 /* User.swift */; };
 		BC8044C041C6B1F065C306CD /* Pods_finalproject_finalprojectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A0947CF80F58036F469B74 /* Pods_finalproject_finalprojectUITests.framework */; };
 		DF70302E2923072A008C7628 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF70302D2923072A008C7628 /* DetailViewController.swift */; };
 		DFA31B21292290F0007ED8E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA31B20292290F0007ED8E0 /* AppDelegate.swift */; };
@@ -48,6 +49,7 @@
 		3FE28F3DC77EAF9126562849 /* Pods_finalprojectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_finalprojectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41A0947CF80F58036F469B74 /* Pods_finalproject_finalprojectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_finalproject_finalprojectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ED9C23B292350A400DB2B81 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
+		5EE8D27929261F2D006ABCD6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6649FD3A8EB21F80942D6511 /* Pods-finalproject-finalprojectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finalproject-finalprojectUITests.debug.xcconfig"; path = "Target Support Files/Pods-finalproject-finalprojectUITests/Pods-finalproject-finalprojectUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		AEA3DFA67D1CCD4D56E0C47E /* Pods-finalprojectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finalprojectTests.debug.xcconfig"; path = "Target Support Files/Pods-finalprojectTests/Pods-finalprojectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C3BC0051D8B8E01FA405BFD0 /* Pods-finalproject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finalproject.release.xcconfig"; path = "Target Support Files/Pods-finalproject/Pods-finalproject.release.xcconfig"; sourceTree = "<group>"; };
@@ -99,6 +101,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5EE8D27829261F12006ABCD6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5EE8D27929261F2D006ABCD6 /* User.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		7ACB2539EC95FFB975F4418F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +147,7 @@
 		DFA31B1F292290F0007ED8E0 /* finalproject */ = {
 			isa = PBXGroup;
 			children = (
+				5EE8D27829261F12006ABCD6 /* Model */,
 				DFA31B20292290F0007ED8E0 /* AppDelegate.swift */,
 				DFA31B22292290F0007ED8E0 /* SceneDelegate.swift */,
 				DFA31B24292290F0007ED8E0 /* ViewController.swift */,
@@ -423,6 +434,7 @@
 				DFA31B21292290F0007ED8E0 /* AppDelegate.swift in Sources */,
 				5ED9C23C292350A400DB2B81 /* DetailTableViewCell.swift in Sources */,
 				DFA31B2B292290F0007ED8E0 /* finalproject.xcdatamodeld in Sources */,
+				5EE8D27A29261F2D006ABCD6 /* User.swift in Sources */,
 				DF70302E2923072A008C7628 /* DetailViewController.swift in Sources */,
 				DFA31B23292290F0007ED8E0 /* SceneDelegate.swift in Sources */,
 				DFA31B54292291D9007ED8E0 /* UserTableViewCell.swift in Sources */,

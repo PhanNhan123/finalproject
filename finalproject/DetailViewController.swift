@@ -2,6 +2,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import SDWebImage
 
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     struct User{
@@ -47,9 +48,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     var userDetail = [String:Any]()
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+    
         detailTableView.dataSource = self
         detailTableView.delegate = self
+        
+        print("login \(login)")
         
     }
     
@@ -58,74 +61,48 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
     func  tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell = detailTableView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath) as! DetailTableViewCell
-//        let defaults = UserDefaults.standard
-//        let data = defaults.object(forKey:"brynary")
-//
-//        print(data)
-        getURL() { (followers,avatar) in
+        getURL() { (name,followers,avatar,dateString,avatar_url,content) in
+            cell.nameLabel.text = name
+            cell.gitImage.image = UIImage(named: "github.png")
+            cell.nameLabel.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            cell.avtImage.sd_setImage(with: URL(string: avatar_url), placeholderImage: UIImage(named: "placeholder.png"))
+//            cell.avtImage.frame = CGRect(x:10, y:10, width: 200, height:200)
+//            cell.avtImage.layoutMargins =  UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+            
             cell.flLabel.text = "\(followers) Followers"
+            cell.dateLabel.text = "Since \(dateString)"
+            cell.contentLabel.text = content
             
         }
-        
-        cell.nameLabel.text = login
-        cell.avtImage.image = image
-        cell.contentLabel.text = content
-        //        cell.flLabel.text = loadData["followers"]
         
         
         return cell
     }
     func tableView(_ tableView:UITableView, heightForRowAt indexPath: IndexPath) ->CGFloat{return 1000}
-    
-//    func loadJsonData(){
-//        AF.request("https://api.github.com/users/\(login)").responseJSON{(response) in
-//            if let json = response.value as! [String:Any]?  {
-//                if let responseValue = json as! [String:Any]? {
-////                    print("selfuserDetail: \(responseValue["login"]!)")
-//
-////                     NSUserdefault
-//                    let defaults = UserDefaults.standard
-//                    defaults.set("\(responseValue)", forKey:"\(responseValue["login"]!)")
-//                }
-//            }
-//        }
-//    }
-    func getURL(completion: @escaping (String,String) -> Void) {
+
+    func getURL(completion: @escaping (String,String,String,String,String,String) -> Void) {
         let url = "https://api.github.com/users/\(login)"
         AF.request(url).responseJSON {response in
             if let value = response.value {
                 let swiftyJsonVar = JSON(value)
-                print("swiftyJsonVar: \(swiftyJsonVar)")
                 let followers = swiftyJsonVar["followers"].stringValue
+                let name = swiftyJsonVar["name"].stringValue
                 let avatar = swiftyJsonVar["avatar_url"].stringValue
                 let created_at = swiftyJsonVar["created_at"].stringValue
-//                let dateFormatter = NSDate
-//                print("date: \(date)")
-                completion(followers,avatar)
+                let avatar_url  =  swiftyJsonVar["avatar_url"].stringValue
+                let content = swiftyJsonVar["bio"].stringValue
+                let dateFormatter = DateFormatter()
+                let tempLocale = dateFormatter.locale
+                dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                let date = dateFormatter.date(from: created_at)!
+                dateFormatter.dateFormat = "MMM d, yyyy"
+                dateFormatter.locale = tempLocale // reset the locale
+                let dateString = dateFormatter.string(from: date)
+                
+                completion(name,followers,avatar,dateString,avatar_url,content)
             }
         }
     }
-    
-    // func tap
-//    @IBAction func tapFunction(sender: UITapGestureRecognizer) {
-//        if let url = URL(string: "https://github.com/\(login)") {
-//            UIApplication.shared.open(url, options: [:], completionHandler: nil)}
-//    }
-    
-    
-    
-//    func getQuests(category: NSString, count: Int) -> NSArray {
-//        var quests = NSArray()
-//
-//        AF.request("https://api.github.com/users/\(login)")
-//            .responseJSON {(json) in
-//                dispatch_async(dispatch_get_main_queue(), {
-//                    quests = json as NSArray
-//                })
-//        }
-//        return quests
-//    }
-    
-    
-    
+        
 }
