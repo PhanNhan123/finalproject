@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		14E6D03ED3D5C6C2DE1EE418 /* Pods_finalprojectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE28F3DC77EAF9126562849 /* Pods_finalprojectTests.framework */; };
+		5EA26F652927390300D4EE9A /* finalproject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5EA26F632927390300D4EE9A /* finalproject.xcdatamodeld */; };
 		5ED9C23C292350A400DB2B81 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED9C23B292350A400DB2B81 /* DetailTableViewCell.swift */; };
 		5EE8D27A29261F2D006ABCD6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EE8D27929261F2D006ABCD6 /* User.swift */; };
 		BC8044C041C6B1F065C306CD /* Pods_finalproject_finalprojectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A0947CF80F58036F469B74 /* Pods_finalproject_finalprojectUITests.framework */; };
@@ -16,7 +17,6 @@
 		DFA31B23292290F0007ED8E0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA31B22292290F0007ED8E0 /* SceneDelegate.swift */; };
 		DFA31B25292290F0007ED8E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA31B24292290F0007ED8E0 /* ViewController.swift */; };
 		DFA31B28292290F0007ED8E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DFA31B26292290F0007ED8E0 /* Main.storyboard */; };
-		DFA31B2B292290F0007ED8E0 /* finalproject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DFA31B29292290F0007ED8E0 /* finalproject.xcdatamodeld */; };
 		DFA31B2D292290F1007ED8E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFA31B2C292290F1007ED8E0 /* Assets.xcassets */; };
 		DFA31B30292290F1007ED8E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DFA31B2E292290F1007ED8E0 /* LaunchScreen.storyboard */; };
 		DFA31B3B292290F1007ED8E0 /* finalprojectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA31B3A292290F1007ED8E0 /* finalprojectTests.swift */; };
@@ -48,6 +48,7 @@
 		33565B663F0DAB827930FE55 /* Pods_finalproject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_finalproject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FE28F3DC77EAF9126562849 /* Pods_finalprojectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_finalprojectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41A0947CF80F58036F469B74 /* Pods_finalproject_finalprojectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_finalproject_finalprojectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EA26F642927390300D4EE9A /* finalproject.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = finalproject.xcdatamodel; sourceTree = "<group>"; };
 		5ED9C23B292350A400DB2B81 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		5EE8D27929261F2D006ABCD6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6649FD3A8EB21F80942D6511 /* Pods-finalproject-finalprojectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finalproject-finalprojectUITests.debug.xcconfig"; path = "Target Support Files/Pods-finalproject-finalprojectUITests/Pods-finalproject-finalprojectUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -60,7 +61,6 @@
 		DFA31B22292290F0007ED8E0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		DFA31B24292290F0007ED8E0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DFA31B27292290F0007ED8E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		DFA31B2A292290F0007ED8E0 /* finalproject.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = finalproject.xcdatamodel; sourceTree = "<group>"; };
 		DFA31B2C292290F1007ED8E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DFA31B2F292290F1007ED8E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DFA31B31292290F1007ED8E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -157,8 +157,8 @@
 				DFA31B53292291D9007ED8E0 /* UserTableViewCell.swift */,
 				DFA31B2C292290F1007ED8E0 /* Assets.xcassets */,
 				DFA31B2E292290F1007ED8E0 /* LaunchScreen.storyboard */,
+				5EA26F632927390300D4EE9A /* finalproject.xcdatamodeld */,
 				DFA31B31292290F1007ED8E0 /* Info.plist */,
-				DFA31B29292290F0007ED8E0 /* finalproject.xcdatamodeld */,
 			);
 			path = finalproject;
 			sourceTree = "<group>";
@@ -432,8 +432,8 @@
 			files = (
 				DFA31B25292290F0007ED8E0 /* ViewController.swift in Sources */,
 				DFA31B21292290F0007ED8E0 /* AppDelegate.swift in Sources */,
+				5EA26F652927390300D4EE9A /* finalproject.xcdatamodeld in Sources */,
 				5ED9C23C292350A400DB2B81 /* DetailTableViewCell.swift in Sources */,
-				DFA31B2B292290F0007ED8E0 /* finalproject.xcdatamodeld in Sources */,
 				5EE8D27A29261F2D006ABCD6 /* User.swift in Sources */,
 				DF70302E2923072A008C7628 /* DetailViewController.swift in Sources */,
 				DFA31B23292290F0007ED8E0 /* SceneDelegate.swift in Sources */,
@@ -768,13 +768,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		DFA31B29292290F0007ED8E0 /* finalproject.xcdatamodeld */ = {
+		5EA26F632927390300D4EE9A /* finalproject.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				DFA31B2A292290F0007ED8E0 /* finalproject.xcdatamodel */,
+				5EA26F642927390300D4EE9A /* finalproject.xcdatamodel */,
 			);
-			currentVersion = DFA31B2A292290F0007ED8E0 /* finalproject.xcdatamodel */;
-			path = finalproject.xcdatamodeld;
+			currentVersion = 5EA26F642927390300D4EE9A /* finalproject.xcdatamodel */;
+			name = finalproject.xcdatamodeld;
+			path = "../../../../../Downloads/finalproject-test/finalproject/finalproject.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

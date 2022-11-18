@@ -106,3 +106,4 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
         
 }
+
