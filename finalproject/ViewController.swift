@@ -8,49 +8,37 @@ import SwiftyJSON
 import CoreData
 
 class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegate {
-    
     var users:  [NSManagedObject] = []
+    var infousers : [NSManagedObject] = []
     @IBOutlet weak var userTableView: UITableView!
-    //    struct User {
-    //        let login: String
-    //        let avatar_url: String
-    //        let url: String
-    //    }
+    
     struct User : Codable{
         let login: String
         let avatar_url: String
         let html_url: String
-        //        let id : Int
-        //        let node_id:  String
-        //        let gravatar_id: String
-        //        let followers_url: String
-        //        let following_url: String
-        //        let gists_url : String
-        //        let starred_url : String
-        //        let subscriptions_url: String
-        //        let organizations_url: String
-        //        let repos_url : String
-        //        let events_url : String
-        //        let received_events_url: String
-        //        let type : String
-        //        let site_admin : String
-        
     }
-    //    let data:[User] = [
-    //        User(login: "mojombo",avatar_url: "https://avatars.githubusercontent.com/u/1?v=4",url:"https://github.com/wayneeseguin"),
-    //        User(login: "defunkt",avatar_url: "https://avatars.githubusercontent.com/u/2?v=4",url:"https://github.com/defunkt"),
-    //        User(login: "pjhyett",avatar_url: "https://avatars.githubusercontent.com/u/3?v=4",url:"https://github.com/pjhyett"),
-    //        User(login: "wycats",avatar_url: "https://avatars.githubusercontent.com/u/4?v=4",url:"https://github.com/wycats"),
-    //
-    //    ]
+    struct InfoUser : Codable{
+        let name: String
+        let avatar_url: String
+        let bio: String
+        let followers: Int64
+        let email: String
+        let created_at: Date
+        let login: String
+    }
     
     override func viewDidLoad() {
         
         self.title = "Switters"
-       fetchData()
+        //                getURL() {(users) in
+        //                    print(users)
+        //                }
+        //                getInfoUser(login:"wycats")
+        //        removeInfoUser()
+        fetchData()
         userTableView.dataSource = self
         userTableView.delegate = self
-
+        
     }
     func tableView(tableView: UITableView, titleForHeaderInSection section:Int) -> String?
     {
@@ -58,60 +46,35 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) ->  Int{
         //        return data.count
-        return 10
-    }
-//    func  tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-//        let cell = userTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! UserTableViewCell
-//        //        let user = data[indexPath.row]
-//        getURL() { (users) in
-//            let user = users[indexPath.row]
-//            //            cell.mainView.backgroundColor = .white
-//            //            cell.infoView.backgroundColor = .lightGray
-//            //            cell.infoView.layer.cornerRadius = 20
-//            //            cell.infoView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-//            cell.loginLabel.text = user.login
-//            cell.loginLabel.font = UIFont.boldSystemFont(ofSize: 18)
-//            cell.urlLabel.text  = user.html_url
-//            cell.urlLabel.textColor = .blue
-//            cell.urlLabel.isUserInteractionEnabled = true
-//            let tap = MyTapGesture(target: self, action: #selector(self.tapFunction(sender:)))
-//            cell.urlLabel.addGestureRecognizer(tap)
-//            tap.url = user.html_url
-//
-//            //        cell.userImageView.sd_setImage(with: URL(string: "https://avatars.githubusercontent.com/u/18?v=4"), placeholderImage: UIImage(named: "placeholder.png"))
-//            cell.userImageView.sd_setImage(with: URL(string: user.avatar_url), placeholderImage: UIImage(named: "placeholder.png"))
-//            cell.userImageView.layer.cornerRadius = 20
-//            cell.userImageView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-//            cell.userImageView.frame = CGRect(x: 10, y: 10, width: 370, height: 300)
-//        }
-//        return cell
-//    }
-    func  tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let cell = userTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! UserTableViewCell
-        //        let user = data[indexPath.row]
-            let user = users[indexPath.row]
-            //            cell.mainView.backgroundColor = .white
-            //            cell.infoView.backgroundColor = .lightGray
-            //            cell.infoView.layer.cornerRadius = 20
-            //            cell.infoView.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
-            cell.loginLabel.text = user.value(forKey: "login") as! String
-            cell.loginLabel.font = UIFont.boldSystemFont(ofSize: 18)
-            cell.urlLabel.text  =  user.value(forKey: "html_url") as! String
-            cell.urlLabel.textColor = .blue
-            cell.urlLabel.isUserInteractionEnabled = true
-            let tap = MyTapGesture(target: self, action: #selector(self.tapFunction(sender:)))
-            cell.urlLabel.addGestureRecognizer(tap)
-            tap.url = user.value(forKey: "html_url") as! String
-
-            //        cell.userImageView.sd_setImage(with: URL(string: "https://avatars.githubusercontent.com/u/18?v=4"), placeholderImage: UIImage(named: "placeholder.png"))
-            cell.userImageView.sd_setImage(with: URL(string:  user.value(forKey: "avatar_url") as! String), placeholderImage: UIImage(named: "placeholder.png"))
-            cell.userImageView.layer.cornerRadius = 20
-            cell.userImageView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-            cell.userImageView.frame = CGRect(x: 10, y: 10, width: 370, height: 300)
-        return cell
+        return  users.count
     }
     
- 
+    func  tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell = userTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! UserTableViewCell
+        let user = users[indexPath.row]
+        cell.loginLabel.text = user.value(forKey: "login") as! String
+        cell.loginLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        cell.urlLabel.isUserInteractionEnabled = true
+        cell.urlLabel.text  =  user.value(forKey: "html_url") as! String
+        cell.urlLabel.textColor = .blue
+        cell.urlLabel.layer.zPosition = 1
+        cell.infoView.bringSubviewToFront(cell.urlLabel)
+        cell.mainView.bringSubviewToFront(cell.infoView)
+//        cell.urlLabel.isUserInteractionEnabled = true
+//        cell.infoView.bringSubviewToFront(cell.urlLabel);
+//        cell.mainView.bringSubviewToFront(cell.urlLabel);
+        let tap = MyTapGesture(target: self, action: #selector(self.tapFunction(sender:)))
+        cell.urlLabel.addGestureRecognizer(tap)
+        tap.url =  user.value(forKey: "html_url") as! String
+        
+        let data = user.value(forKey: "avatar_url") as! Data
+        cell.userImageView.image  = UIImage(data: data)
+        cell.userImageView.layer.cornerRadius = 20
+        cell.userImageView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        cell.userImageView.frame = CGRect(x: 10, y: 10, width: 370, height: 250)
+
+        return cell
+    }
     
     // tap function
     
@@ -135,8 +98,10 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
         let user = NSManagedObject(entity: entity, insertInto: managedContext)
         user.setValue(login, forKeyPath: "login")
         user.setValue(html_url, forKeyPath: "html_url")
-        user.setValue(avatar_url, forKeyPath: "avatar_url")
-        
+        let urlImage = URL(string: avatar_url)!
+        if let data  = try? Data(contentsOf: urlImage){
+            user.setValue(data, forKeyPath: "avatar_url")
+        }
         do{
             try managedContext.save()
             users.append(user)
@@ -145,36 +110,16 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
         }
     }
     
-    // fetch coredata
-    //    override func viewWillAppear(_ animated: Bool) {
-    //        print("fetchdata")
-    //        super.viewWillAppear(animated)
-    //        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return }
-    //        let managedConText = appDelegate.persistentContainer.viewContext
-    //        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
-    //        do{
-    //            users  = try managedConText.fetch(fetchRequest)
-    //            for data in users as! [NSManagedObject]{
-    ////                print(data.value(forKey: "login") as! String)
-    //                print(data.value(forKey: "html_url") as! String)
-    //
-    //
-    //            }
-    ////            print(users)
-    //        }catch let error as NSError{
-    //            print("Could not fetch , \(error),\(error.userInfo)")
-    //            print (0)
-    //        }
-    //    }
     func fetchData() {
-        print("fetchdata")
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return }
         let managedConText = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
         do{
             users  = try managedConText.fetch(fetchRequest)
             for data in users as! [NSManagedObject]{
-                print(data.value(forKey: "html_url") as! String)
+                let string = data.value(forKey: "login") as! String
+                //                    getInfoUser(login: string)
+                //                print(data.value(forKey: "login") as! String)
             }
         }catch let error as NSError{
             print("Could not fetch , \(error),\(error.userInfo)")
@@ -187,7 +132,7 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
                     return
                 }
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "User") // Find this name in your .xcdatamodeld file
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "User")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         
         do {
@@ -199,15 +144,19 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
     }
     
     func getURL(completion: @escaping ([User]) -> Void) {
+        let headers: HTTPHeaders = [
+            "Authorization": "Basic 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"
+        ]
         let url = "https://api.github.com/users"
-        AF.request(url).responseJSON {response in            
+        AF.request(url,headers: headers).responseJSON {response in
             switch (response.result) {
             case .success( _):
                 do {
                     let users = try JSONDecoder().decode([User].self, from: response.data!)
-//                                        for item in users {
-//                                            self.save(login:item.login,html_url: item.html_url,avatar_url: item.avatar_url)
-//                                        }
+                    //                                        self.removeCoreData()
+                    //                                        for item in users {
+                    //                                            self.save(login:item.login,html_url: item.html_url,avatar_url: item.avatar_url)
+                    //                                        }
                     completion(users)
                 } catch let error as NSError {
                     print("Failed to load: \(error.localizedDescription)")
@@ -215,16 +164,92 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
             case .failure(let error):
                 print("Request error: \(error.localizedDescription)")
             }
-            
         }
     }
     
+    func saveInfoUser(name: String,bio: String,avatar_url: String,created_at: Date, followers: Int64, email: String, login: String){
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "InfoUser", in: managedContext)!
+        let user = NSManagedObject(entity: entity, insertInto: managedContext)
+        user.setValue(name, forKeyPath: "name")
+        user.setValue(bio, forKeyPath: "bio")
+        user.setValue(followers, forKey: "followers")
+        user.setValue(email, forKey: "email")
+        user.setValue(created_at, forKey: "created_at")
+        user.setValue(login, forKey: "login")
+        let urlImage = URL(string: avatar_url)!
+        if let data  = try? Data(contentsOf: urlImage){
+            user.setValue(data, forKeyPath: "avatar_url")
+        }
+        do{
+            try managedContext.save()
+            users.append(user)
+        }catch let error as NSError{
+            print("Could not save, \(error), \(error.userInfo)")
+        }
+    }
+    
+    func getInfoUser(login : String ) {
+        let headers: HTTPHeaders = [
+            "Authorization": "Basic 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"
+        ]
+        let url = "https://api.github.com/users/\(login)"
+        AF.request(url,headers: headers).responseJSON {response in
+            if let value = response.value {
+                let swiftyJsonVar = JSON(value)
+                let followers = swiftyJsonVar["followers"].int64Value
+                let name = swiftyJsonVar["name"].stringValue
+                let created_at = swiftyJsonVar["created_at"].stringValue
+                let avatar_url  =  swiftyJsonVar["avatar_url"].stringValue
+                let bio = swiftyJsonVar["bio"].stringValue
+                let email = swiftyJsonVar["email"].stringValue
+                let login = swiftyJsonVar["login"].stringValue
+                let  dateFormatter = DateFormatter()
+                let tempLocale = dateFormatter.locale
+                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                let date = dateFormatter.date(from: created_at)!
+                self.saveInfoUser(name: name , bio: bio, avatar_url: avatar_url, created_at: date, followers: followers, email: email, login: login)
+            }
+        }
+    }
+    
+    func fetchInfoUser() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return }
+        let managedConText = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "InfoUser")
+        do{
+            infousers  = try managedConText.fetch(fetchRequest)
+            for data in infousers as! [NSManagedObject]{
+                print(data.value(forKey: "created_at") as! Date)
+            }
+        }catch let error as NSError{
+            print("Could not fetch , \(error),\(error.userInfo)")
+            print (0)
+        }
+    }
+    
+    func removeInfoUser(){
+        guard let appDelegate =
+                UIApplication.shared.delegate as? AppDelegate else {
+                    return
+                }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "InfoUser")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try managedContext.execute(deleteRequest)
+        } catch let error as NSError {
+            // TODO: handle the error
+            print(error.localizedDescription)
+        }
+    }
     @IBAction func tapFunction(sender: MyTapGesture){
         if let url = URL(string: sender.url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)}
     }
-    
-    
 }
 class MyTapGesture: UITapGestureRecognizer {
     var url = String()

@@ -2,7 +2,6 @@ import UIKit
 
 class UserTableViewCell: UITableViewCell {
     @IBOutlet weak var urlLabel: UILabel!
-    
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var infoView: UIView!
     @IBOutlet weak var loginLabel: UILabel!
