@@ -6,7 +6,6 @@ target 'finalproject' do
   use_frameworks!
 	pod "Alamofire"	
 	pod "SDWebImage"
-	pod  "MBProgressHUD"
 	pod "SwiftyJSON"
   # Pods for finalproject
 

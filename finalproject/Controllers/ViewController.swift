@@ -3,7 +3,6 @@ import Foundation
 import UIKit
 import Alamofire
 import SDWebImage
-import MBProgressHUD
 import SwiftyJSON
 import CoreData
 
@@ -12,34 +11,22 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
     var infousers : [NSManagedObject] = []
     @IBOutlet weak var userTableView: UITableView!
     
-    struct User : Codable{
-        let login: String
-        let avatar_url: String
-        let html_url: String
-    }
-    struct InfoUser : Codable{
-        let name: String
-        let avatar_url: String
-        let bio: String
-        let followers: Int64
-        let email: String
-        let created_at: Date
-        let login: String
-    }
-    
     override func viewDidLoad() {
-        
         self.title = "Switters"
-        //                getURL() {(users) in
-        //                    print(users)
-        //                }
-        //                getInfoUser(login:"wycats")
-        //        removeInfoUser()
+        getURL() {(users) in
+        }
+        removeInfoUser()
         fetchData()
+        //        userTableView.dataSource = self
+        //        userTableView.delegate = self
+        print("viewdidload")
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewwillappear")
         userTableView.dataSource = self
         userTableView.delegate = self
-        
     }
+    
     func tableView(tableView: UITableView, titleForHeaderInSection section:Int) -> String?
     {
         return "Switters"
@@ -54,15 +41,9 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
         let user = users[indexPath.row]
         cell.loginLabel.text = user.value(forKey: "login") as! String
         cell.loginLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        cell.urlLabel.isUserInteractionEnabled = true
         cell.urlLabel.text  =  user.value(forKey: "html_url") as! String
         cell.urlLabel.textColor = .blue
-        cell.urlLabel.layer.zPosition = 1
-        cell.infoView.bringSubviewToFront(cell.urlLabel)
-        cell.mainView.bringSubviewToFront(cell.infoView)
-//        cell.urlLabel.isUserInteractionEnabled = true
-//        cell.infoView.bringSubviewToFront(cell.urlLabel);
-//        cell.mainView.bringSubviewToFront(cell.urlLabel);
+        cell.urlLabel.isUserInteractionEnabled = true
         let tap = MyTapGesture(target: self, action: #selector(self.tapFunction(sender:)))
         cell.urlLabel.addGestureRecognizer(tap)
         tap.url =  user.value(forKey: "html_url") as! String
@@ -71,14 +52,16 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
         cell.userImageView.image  = UIImage(data: data)
         cell.userImageView.layer.cornerRadius = 20
         cell.userImageView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        cell.userImageView.frame = CGRect(x: 10, y: 10, width: 370, height: 250)
-
+        cell.userImageView.frame = CGRect(x: 5, y: 5, width: 342, height: 250)
+        
+        cell.titleView.frame = CGRect(x: 5, y: 255, width: 342, height: 100)
+        cell.titleView.backgroundColor = .lightGray
+        cell.titleView.layer.cornerRadius = 20
+        cell.titleView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         return cell
     }
     
-    // tap function
-    
-    func tableView(_ tableView:UITableView, heightForRowAt indexPath: IndexPath) ->CGFloat{return 400
+    func tableView(_ tableView:UITableView, heightForRowAt indexPath: IndexPath) ->CGFloat{return 380
         
     }
     
@@ -89,6 +72,9 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
         var user = users[indexPath.row]
         vc?.login =  user.value(forKey: "login") as! String
         self.navigationController?.pushViewController(vc!, animated: true)
+        self.navigationController?.navigationBar.tintColor = UIColor.red
+        //        self.navigationController?.popViewController(animated: true)
+        //        self.navigationController?.navigationBar.ti   tleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.red]
     }
     
     func save(login: String,html_url:String,avatar_url:String){
@@ -118,8 +104,7 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
             users  = try managedConText.fetch(fetchRequest)
             for data in users as! [NSManagedObject]{
                 let string = data.value(forKey: "login") as! String
-                //                    getInfoUser(login: string)
-                //                print(data.value(forKey: "login") as! String)
+                getInfoUser(login: string)
             }
         }catch let error as NSError{
             print("Could not fetch , \(error),\(error.userInfo)")
@@ -143,7 +128,7 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
         }
     }
     
-    func getURL(completion: @escaping ([User]) -> Void) {
+    func getURL(completion: @escaping ([UserModel]) -> Void) {
         let headers: HTTPHeaders = [
             "Authorization": "Basic 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"
         ]
@@ -152,11 +137,11 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
             switch (response.result) {
             case .success( _):
                 do {
-                    let users = try JSONDecoder().decode([User].self, from: response.data!)
-                    //                                        self.removeCoreData()
-                    //                                        for item in users {
-                    //                                            self.save(login:item.login,html_url: item.html_url,avatar_url: item.avatar_url)
-                    //                                        }
+                    let users = try JSONDecoder().decode([UserModel].self, from: response.data!)
+                    self.removeCoreData()
+                    for item in users {
+                        self.save(login:item.login,html_url: item.html_url,avatar_url: item.avatar_url)
+                    }
                     completion(users)
                 } catch let error as NSError {
                     print("Failed to load: \(error.localizedDescription)")
@@ -210,7 +195,9 @@ class ViewController: UIViewController,UITableViewDataSource, UITableViewDelegat
                 dateFormatter.locale = Locale(identifier: "en_US_POSIX")
                 dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
                 let date = dateFormatter.date(from: created_at)!
+                
                 self.saveInfoUser(name: name , bio: bio, avatar_url: avatar_url, created_at: date, followers: followers, email: email, login: login)
+                //                print("saveinfo")
             }
         }
     }

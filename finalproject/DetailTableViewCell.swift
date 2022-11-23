@@ -2,6 +2,7 @@ import UIKit
 
 class DetailTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var infoContentView: UIView!
     @IBOutlet weak var emailImage: UIImageView!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
