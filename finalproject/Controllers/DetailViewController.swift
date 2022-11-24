@@ -1,4 +1,3 @@
-
 import UIKit
 import Alamofire
 import SwiftyJSON
@@ -7,10 +6,13 @@ import CoreData
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     var infousers : [NSManagedObject] = []
     @IBOutlet weak var detailTableView: UITableView!
+    var viewModelDetail = DetailViewModel()
     var login = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchInfoUser()
+        self.viewModelDetail.fetchInfoUser(){(infousers) in
+            self.infousers = infousers
+        }
         detailTableView.dataSource = self
         detailTableView.delegate = self
     }
@@ -26,12 +28,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         cell.nameLabel.text = infouser.value(forKey: "name") as! String
         cell.nameLabel.font = UIFont.boldSystemFont(ofSize: 24)
         cell.contentLabel.text = infouser.value(forKey: "bio") as! String
-        //        cell.contentLabel.text = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available."
-        //        cell.contentLabel.numberOfLines = 0
-        //        cell.contentLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
-        //        cell.contentLabel.sizeToFit()
-        
-        
         cell.avtImage.frame = CGRect(x:0 , y: 70 , width: UIScreen.main.bounds.width , height: 300)
         cell.infoContentView.frame = CGRect(x: 0 ,y: 370 , width:  UIScreen.main.bounds.width, height: 100 )
         cell.infoContentView.backgroundColor = .lightGray
@@ -58,21 +54,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
     func tableView(_ tableView:UITableView, heightForRowAt indexPath: IndexPath) ->CGFloat{return 1000}
-    
-    func fetchInfoUser() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return }
-        let managedConText = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "InfoUser")
-        do{
-            infousers  = try managedConText.fetch(fetchRequest)
-            for data in infousers as! [NSManagedObject]{
-                //                print(data.value(forKey: "name") as! String)
-            }
-        }catch let error as NSError{
-            print("Could not fetch , \(error),\(error.userInfo)")
-            print (0)
-        }
-    }
     
 }
 
