@@ -6,6 +6,11 @@ target 'finalproject' do
   use_frameworks!
 	pod "Alamofire"	
 	pod "SwiftyJSON"
+	pod "RxSwift"
+	pod "SwiftyBeaver" 
+	pod "SwifterSwift"
+	pod "RxCocoa"
+	pod "Nuke","9.0"
   # Pods for finalproject
 
   target 'finalprojectTests' do
